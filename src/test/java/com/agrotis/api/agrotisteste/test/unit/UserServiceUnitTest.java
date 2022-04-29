@@ -119,7 +119,7 @@ public class UserServiceUnitTest {
 	@Test
 	public void testD_shouldUpdateUser() {
 		
-		// create parameters
+		// create parameters to update
 		var propertyInformationParam = PropertyInformationParam.builder()
 				.id(98765)
 				.propertyName("Nome Exemplo da fazenda update")
@@ -139,7 +139,7 @@ public class UserServiceUnitTest {
 							 .laboratoryInformationParam(laboratoryInformationParam)
 							 .propertyInformationParam(propertyInformationParam)
 							 .build();
-		// save user
+		// update user
 		var user = userService.update(param);
 		
 		// validation
@@ -161,13 +161,15 @@ public class UserServiceUnitTest {
 	public void testF_shouldDeleteUser() {
 		
 		var exception = assertThrows(NotFoundException.class, () -> {
+			
+			// delete user
 			userRepository.deleteById(id);
 			userService.findById(id);
 		});
-
+		
+		// validation
 	    String expectedMessage = "Usuário não encontrado com id: " + id;
 	    String actualMessage = exception.getMessage();
-	    
 	    assertTrue(actualMessage.contains(expectedMessage));
 	}
 
