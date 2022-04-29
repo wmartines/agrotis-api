@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -171,14 +170,14 @@ public class UserController {
 	 */
 	public void validation(UserParam param) {
 		
-		Assert.isTrue(StringUtils.isNotEmpty(param.getLaboratoryInformationParam().getLaboratoryName()), "Preencha os campos obrigatórios");
-		Assert.isTrue(StringUtils.isNotEmpty(param.getPropertyInformationParam().getPropertyName()), "Preencha os campos obrigatórios");
-		Assert.isTrue(StringUtils.isNotEmpty(param.getName()), "Preencha os campos obrigatórios");
-		Assert.isTrue(StringUtils.isNotEmpty(param.getDocumentId()), "Preencha os campos obrigatórios");
-		Assert.isTrue(StringUtils.isNotEmpty(param.getStartDate()), "Preencha os campos obrigatórios");
-		Assert.isTrue(StringUtils.isNotEmpty(param.getFinalDate()), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getLaboratoryInformationParam().getLaboratoryName(), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getPropertyInformationParam().getPropertyName(), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getName(), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getDocumentId(), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getStartDate(), "Preencha os campos obrigatórios");
+		Assert.hasText(param.getFinalDate(), "Preencha os campos obrigatórios");
 	}
-	
+		
 	/**
 	 * Convert to presenter.
 	 *

@@ -1,7 +1,6 @@
 package com.agrotis.api.agrotisteste.presenter;
 
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -75,7 +74,7 @@ public class UserPresenter implements Serializable {
 	}
 	
 	/**
-	 * Instantiates a new laboratory information presentetr.
+	 * Instantiates a new laboratory information presenter.
 	 */
 	@Data
 	@Builder
