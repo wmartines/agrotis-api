@@ -158,7 +158,7 @@ public class UserController {
 	/**
 	 * Convert to presenter.
 	 *
-	 * @param document the document
+	 * @param UserDocument the document
 	 * @return the user presenter
 	 */
 	private UserPresenter convertToPresenter(UserDocument document) {
@@ -172,8 +172,8 @@ public class UserController {
 							.finalDate(document.getDtEnd())
 							.documentId(document.getDocumentId())
 							.observation(document.getDsObservation())
-							.propertyInformationPresenter(convertPropertyInformationToDocument(document.getPropertyInformationDocument()))
-							.laboratoryInformationPresenter(convertLaboratoryInformationToDocument(document.getLaboratoryInformationDocument()))
+							.propertyInformationPresenter(convertPropertyInformationToPresenter(document.getPropertyInformationDocument()))
+							.laboratoryInformationPresenter(convertLaboratoryInformationToPresenter(document.getLaboratoryInformationDocument()))
 							.build();
 
 		})// throw exception
@@ -181,12 +181,12 @@ public class UserController {
 	}
 	
 	/**
-	 * Convert property information to document.
+	 * Convert property information to presenter.
 	 *
-	 * @param document the document
+	 * @param PropertyInformationDocument the document
 	 * @return the property information presenter
 	 */
-	private PropertyInformationPresenter convertPropertyInformationToDocument(PropertyInformationDocument document) {
+	private PropertyInformationPresenter convertPropertyInformationToPresenter(PropertyInformationDocument document) {
 
 		return PropertyInformationPresenter.builder()
 				.id(document.getId())
@@ -195,12 +195,12 @@ public class UserController {
 	}
 	
 	/**
-	 * Convert laboratory information to document.
+	 * Convert laboratory information to presenter.
 	 *
-	 * @param document the document
+	 * @param LaboratoryInformationDocument the document
 	 * @return the laboratory information presenter
 	 */
-	private LaboratoryInformationPresenter convertLaboratoryInformationToDocument(LaboratoryInformationDocument document) {
+	private LaboratoryInformationPresenter convertLaboratoryInformationToPresenter(LaboratoryInformationDocument document) {
 
 		return LaboratoryInformationPresenter.builder()
 				.id(document.getId())

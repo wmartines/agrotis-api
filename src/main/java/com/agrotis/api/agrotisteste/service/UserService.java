@@ -16,6 +16,7 @@ import com.agrotis.api.agrotisteste.param.UserParam.LaboratoryInformationParam;
 import com.agrotis.api.agrotisteste.param.UserParam.PropertyInformationParam;
 import com.agrotis.api.agrotisteste.repository.UserRepository;
 import com.agrotis.api.agrotisteste.resource.ApplicationRuntimeException;
+import com.agrotis.api.agrotisteste.resource.NotFoundException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -27,6 +28,19 @@ public class UserService {
 	/** The user repository. */
 	@Autowired
 	private UserRepository userRepository;
+	
+	/**
+	 * Find user by id.
+	 *
+	 * @param id
+	 * @return the user document
+	 */
+	public UserDocument findById(String id) {
+
+		return userRepository.findById(id)
+				// throw exception
+				.orElseThrow(() -> new NotFoundException("No user found with id " + id));
+	}
 	
 	/**
 	 * Find all.
@@ -66,9 +80,9 @@ public class UserService {
 	public UserDocument update(UserParam parameter) {
 
 		return Optional.ofNullable(parameter)
-				// convert and save user
+				// convert to update with new parameters
 				.map(this::convertToUpdateDocument)
-				// save
+				// save user updated
 				.map(userRepository::save)
 				// throw exception
 				.orElseThrow(() -> new ApplicationRuntimeException("Ocorreu um erro ao atualizar usuário: " + parameter.getId()));
@@ -78,16 +92,14 @@ public class UserService {
 	/**
 	 * Convert to update document.
 	 *
-	 * @param param the param
+	 * @param UserParam the param	
 	 * @return the user document
 	 */
 	private UserDocument convertToUpdateDocument(UserParam param) {
-
+		
 		return Optional.ofNullable(param.getId())
-				// find by id
-				.map(userRepository::findById)
-				// get from optional
-				.map(Optional<UserDocument>::get)
+				// find user by id
+				.map(this::findById)
 				// update document
 				.map(document -> {
 					document.setName(param.getName());
