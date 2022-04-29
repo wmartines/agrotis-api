@@ -1,7 +1,5 @@
 package com.agrotis.api.agrotisteste.document;
 
-import java.time.LocalDateTime;
-
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -10,6 +8,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ *  The Class UserDocument. 
+ *
+ */
 @Data
 @Builder
 @NoArgsConstructor
@@ -17,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Document(collection = "users")
 public class UserDocument {
 	
+	/** The id. */
 	@Id
 	private String id;
 	/** The name. */

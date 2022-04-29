@@ -23,13 +23,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.agrotis.api.agrotisteste.document.UserDocument;
 import com.agrotis.api.agrotisteste.document.UserDocument.LaboratoryInformationDocument;
 import com.agrotis.api.agrotisteste.document.UserDocument.PropertyInformationDocument;
+import com.agrotis.api.agrotisteste.exception.ApplicationRuntimeException;
 import com.agrotis.api.agrotisteste.param.UserFilterParam;
 import com.agrotis.api.agrotisteste.param.UserParam;
 import com.agrotis.api.agrotisteste.presenter.UserPresenter;
 import com.agrotis.api.agrotisteste.presenter.UserPresenter.LaboratoryInformationPresenter;
 import com.agrotis.api.agrotisteste.presenter.UserPresenter.PropertyInformationPresenter;
 import com.agrotis.api.agrotisteste.repository.UserRepository;
-import com.agrotis.api.agrotisteste.resource.ApplicationRuntimeException;
 import com.agrotis.api.agrotisteste.service.UserService;
 
 /**
@@ -84,7 +84,7 @@ public class UserController {
 	/**
 	 * Save.
 	 *
-	 * @param param the param
+	 * @param UserParam the param
 	 * @return the response entity
 	 * @throws Exception the exception
 	 */
@@ -108,7 +108,7 @@ public class UserController {
 	/**
 	 * Update.
 	 *
-	 * @param param the param
+	 * @param UserParam the param
 	 * @param id the id
 	 * @return the response entity
 	 * @throws Exception the exception
@@ -126,14 +126,32 @@ public class UserController {
 				})
 				// save user
 				.map(userService::update)
-				// convert document to presenter
+				// convert user to presenter
 				.map(this::convertToPresenter)
 				// throw exception
 				.orElseThrow(), HttpStatus.OK);
 	}
 	
 	/**
-	 * Delete.
+	 * Find by id.
+	 *
+	 * @param id the id
+	 * @return the response entity
+	 */
+	@GetMapping("/{id}")
+	public  ResponseEntity<?> findById(@PathVariable String id) {
+		
+		return new ResponseEntity<>(Optional.of(id)
+                // find user by id
+                .map(userService::findById)
+                // convert to presenter
+                .map(this::convertToPresenter)
+                // throw exception
+                .orElseThrow(ApplicationRuntimeException::new), HttpStatus.OK);
+	}
+	
+	/**
+	 * Delete user by id.
 	 *
 	 * @param id the id
 	 * @return the response entity
@@ -141,6 +159,7 @@ public class UserController {
 	@DeleteMapping("/{id}")
 	public  ResponseEntity<?> delete(@PathVariable String id) {
 		
+		// delete user by id
 		userRepository.deleteById(id);
 		return ResponseEntity.noContent().build();
 	}
@@ -148,11 +167,16 @@ public class UserController {
 	/**
 	 * Validation.
 	 *
-	 * @param param the param
+	 * @param UserParam the param
 	 */
 	public void validation(UserParam param) {
-		Assert.isTrue(StringUtils.isNotEmpty(param.getPropertyInformationParam().getPropertyName()), "Preencha os campos obrigatórios");
+		
 		Assert.isTrue(StringUtils.isNotEmpty(param.getLaboratoryInformationParam().getLaboratoryName()), "Preencha os campos obrigatórios");
+		Assert.isTrue(StringUtils.isNotEmpty(param.getPropertyInformationParam().getPropertyName()), "Preencha os campos obrigatórios");
+		Assert.isTrue(StringUtils.isNotEmpty(param.getName()), "Preencha os campos obrigatórios");
+		Assert.isTrue(StringUtils.isNotEmpty(param.getDocumentId()), "Preencha os campos obrigatórios");
+		Assert.isTrue(StringUtils.isNotEmpty(param.getStartDate()), "Preencha os campos obrigatórios");
+		Assert.isTrue(StringUtils.isNotEmpty(param.getFinalDate()), "Preencha os campos obrigatórios");
 	}
 	
 	/**

@@ -1,4 +1,4 @@
-package com.agrotis.api.agrotisteste.resource;
+package com.agrotis.api.agrotisteste.exception;
 
 import java.text.MessageFormat;
 

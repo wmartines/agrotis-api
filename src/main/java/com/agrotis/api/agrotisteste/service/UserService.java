@@ -10,15 +10,14 @@ import org.springframework.stereotype.Service;
 import com.agrotis.api.agrotisteste.document.UserDocument;
 import com.agrotis.api.agrotisteste.document.UserDocument.LaboratoryInformationDocument;
 import com.agrotis.api.agrotisteste.document.UserDocument.PropertyInformationDocument;
+import com.agrotis.api.agrotisteste.exception.ApplicationRuntimeException;
+import com.agrotis.api.agrotisteste.exception.NotFoundException;
 import com.agrotis.api.agrotisteste.param.UserFilterParam;
 import com.agrotis.api.agrotisteste.param.UserParam;
 import com.agrotis.api.agrotisteste.param.UserParam.LaboratoryInformationParam;
 import com.agrotis.api.agrotisteste.param.UserParam.PropertyInformationParam;
 import com.agrotis.api.agrotisteste.repository.UserRepository;
-import com.agrotis.api.agrotisteste.resource.ApplicationRuntimeException;
-import com.agrotis.api.agrotisteste.resource.NotFoundException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class UserService.
  */
@@ -39,7 +38,7 @@ public class UserService {
 
 		return userRepository.findById(id)
 				// throw exception
-				.orElseThrow(() -> new NotFoundException("No user found with id " + id));
+				.orElseThrow(() -> new NotFoundException("Usuário não encontrado com id: " + id));
 	}
 	
 	/**
@@ -68,7 +67,6 @@ public class UserService {
 				.map(userRepository::save)
 				// throw exception
 				.orElseThrow(() -> new ApplicationRuntimeException("Ocorreu um erro ao salvar usuário: " + parameter.getName()));
-
 	}
 	
 	/**
@@ -126,6 +124,7 @@ public class UserService {
 
 		return Optional.ofNullable(parameter)
 				.map(param -> {
+					// set new parameters
 					return UserDocument.builder()
 							.name(param.getName())
 							.dtStart(param.getStartDate())
